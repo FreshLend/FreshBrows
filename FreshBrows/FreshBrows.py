@@ -1,3 +1,12 @@
+##################################################################################
+#                                                                                #
+#                        F R E S H L E N D    S T U D I O                        #
+#                                                                                #
+#                                APP: FRESHBROWS                                 #
+# Авторы: FreshGame                                                              #
+#                                                                                #
+##################################################################################
+
 import sys
 import os
 from PyQt5.QtCore import QUrl, QSettings
@@ -10,7 +19,7 @@ class SimpleBrowser(QMainWindow):
         super().__init__()
         self.setWindowTitle('FreshBrows')
         self.resize(1080, 820)
-        self.setWindowIcon(QIcon('icons/browser_icon.png'))  # Устанавливаем иконку окна
+        self.setWindowIcon(QIcon('icons/browser_icon.png'))
 
         # Создание директорий для данных браузера и кеша
         data_dir = os.path.join(os.getcwd(), 'browser_data')
@@ -101,14 +110,13 @@ class SimpleBrowser(QMainWindow):
         i = self.tabs.addTab(browser, QIcon('icons/browser_icon.png'), label)  # Установите иконку по умолчанию
         self.tabs.setCurrentIndex(i)
 
-        # Подключение к сигналу iconChanged
         browser.iconChanged.connect(lambda icon, i=i: self.update_tab_icon(icon, i))
 
         browser.urlChanged.connect(lambda qurl, browser=browser: self.update_urlbar(qurl, browser))
         browser.loadFinished.connect(lambda _, i=i, browser=browser: self.tabs.setTabText(i, browser.page().title()))
 
     def tab_on_doubleclick(self, i):
-        if i == -1:  # No tab under the cursor
+        if i == -1:
             self.add_new_tab()
 
     def current_tab_changed(self, i):
@@ -140,7 +148,7 @@ class SimpleBrowser(QMainWindow):
             if browser != self.tabs.currentWidget():
                 return
 
-            # Проверяем, является ли текущий URL домашней страницей
+            # Проверка является ли текущий URL домашней страницей
             home_page = os.path.abspath('FreshBrows.html')
             home_url = QUrl.fromLocalFile(home_page).toString()
 
@@ -148,7 +156,7 @@ class SimpleBrowser(QMainWindow):
                 # Если это домашняя страница, отображаем пустую строку или "Домашняя страница"
                 self.url_bar.setText("Домашняя страница")
             else:
-                # В противном случае отображаем полный URL
+                # В другом случае отображаем полный URL
                 self.url_bar.setText(q.toString())
                 self.url_bar.setCursorPosition(0)
 
