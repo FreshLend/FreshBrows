@@ -11,4 +11,4 @@
 ### FreshBrows - это простой и быстрый браузер, который идеально подходит для тех, кто ищет минималистичное решение для просмотра веб-страниц.
 
 # Все версии браузера:
-## [FreshBrows - ALLVERSIONS](https://github.com/FreshLend/FreshBrows/releases/tag/ALL_VERSIONS)
+### [FreshBrows - ALLVERSIONS](https://github.com/FreshLend/FreshBrows/releases/tag/ALL_VERSIONS)
