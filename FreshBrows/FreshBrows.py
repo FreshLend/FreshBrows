@@ -50,6 +50,12 @@ class SimpleBrowser(QMainWindow):
         self.init_ui()
         self.apply_styles()
 
+        # Создаем менеджер загрузок
+        self.download_manager = self.profile.downloadRequested
+
+        # Подключаем сигналы к обработчикам событий загрузок
+        self.download_manager.connect(self.on_download_requested)
+
     def init_ui(self):
         nav_bar = QHBoxLayout()
 
@@ -68,12 +74,16 @@ class SimpleBrowser(QMainWindow):
         add_tab_btn = QPushButton(QIcon('icons/plus.png'), '')  # Изменено здесь
         add_tab_btn.clicked.connect(self.add_tab_clicked)
 
+        downloads_btn = QPushButton(QIcon('icons/download.png'), '')  # Добавлено здесь
+        downloads_btn.clicked.connect(self.open_downloads_folder)
+
         # Добавляем кнопки в панель навигации
         nav_bar.addWidget(back_btn)
         nav_bar.addWidget(forward_btn)
         nav_bar.addWidget(reload_btn)
         nav_bar.addWidget(home_btn)
         nav_bar.addWidget(add_tab_btn)
+        nav_bar.addWidget(downloads_btn)  # Добавлено здесь
 
         self.url_bar = QLineEdit()
         self.url_bar.returnPressed.connect(self.navigate_to_url)
@@ -91,6 +101,35 @@ class SimpleBrowser(QMainWindow):
         self.setMenuWidget(main_widget)
 
         self.apply_styles()
+    
+    def on_download_requested(self, download):
+        options = QFileDialog.Options()
+        file_name, _ = QFileDialog.getSaveFileName(self, "Сохранить файл", download.url().fileName(), "All Files (*);;Text Files (*.txt)", options=options)
+        if file_name:
+            download.setPath(file_name)
+            download.accept()
+
+    def download_url(self, url):
+        # Создаем новую вкладку с WebView и загружаем в нее URL
+        web_view = QWebEngineView()
+        web_view.load(QUrl(url))
+        
+        # Добавляем вкладку
+        self.tabs.addTab(web_view, "Loading...")
+
+        # Запускаем загрузку страницы
+        web_view.loadFinished.connect(lambda: self.tabs.setTabText(self.tabs.indexOf(web_view), web_view.page().title()))
+        web_view.loadProgress.connect(lambda progress: self.set_progress(web_view, progress))
+
+    def set_progress(self, web_view, progress):
+        self.tabs.setTabText(self.tabs.indexOf(web_view), f"{web_view.page().title()} [{progress}%]")
+
+    def open_downloads_folder(self):
+        downloads_path = os.path.join(os.path.expanduser("~"), "Downloads")
+        if os.path.exists(downloads_path):
+            os.startfile(downloads_path)
+        else:
+            QMessageBox.warning(self, "Folder Not Found", "The Downloads folder does not exist.")
 
     def navigate_home(self):
         home_page = os.path.abspath('FreshBrows.html')

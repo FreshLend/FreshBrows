@@ -3,6 +3,7 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta charset="UTF-8">
+<link rel="stylesheet" href="https://jenil.github.io/bulmaswatch/darkly/bulmaswatch.min.css">
 <title>FreshBrows</title>
 <style>
     body {
@@ -11,7 +12,14 @@
         padding: 0;
         height: 100vh;
         background-image: linear-gradient(to right, #007bff, #00dbde);
-    }
+        font-size: 24px;
+        }
+
+    .button {
+            font-size: 17px;
+            width: 200px;
+            height: 45px;
+        }
     
     form {
         position: fixed;
@@ -52,12 +60,58 @@
     input[type=submit]:hover {
         background-color: #0056b3;
     }
+
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .frame {
+        border: 2px solid #007bff;
+        border-radius: 15px;
+        padding: 20px;
+        max-width: 400px;
+        background-image: linear-gradient(to right, #007bff, #00dbde);
+        text-align: center;
+    }
+
+    .frame img {
+        max-width: 100%;
+        height: auto;
+        margin-bottom: 10px;
+    }
+
+    .cptp {
+        margin-bottom: 10px;
+    }
 </style>
 </head>
 <body>
-    <form action="https://www.google.com/search" method="get">
-        <input type="text" name="q" placeholder="Введите запрос для поиска...">
-        <input type="submit" value="Поиск">
-    </form>
+<div>
+    
+    <div class="container">
+        <form action="https://www.google.com/search" method="get">
+            <input type="text" name="q" placeholder="Введите запрос для поиска...">
+            <input type="submit" value="Поиск">
+        </form>
+        <div class="frame" onclick="window.open('https://freshlend.github.io', '_self')">
+            <img src="icons/freshlend.png" alt="FreshLend">
+            <input class="cptp" type="text" value="Наш сайт: FreshLend.Studio" readonly>
+            <input type="submit" value="Перейти">
+        </div>
+    </div>
+</div>
+
+    <footer class="footer block">
+        <div class="content">
+            <b>(©) 2021-2024 FreshLend Studio</b>
+            <p>Браузер создал: <a href="https://freshlend.github.io/home/profils/freshgame" target="_self">@FreshGame_YT</a></p>
+            <p>Связаться со мной: <a href="mailto:freshlend.studio@gmail.com?subject=FreshLend Studio"><strong>freshlend.studio@gmail.com</strong></a></p>
+            <p>Исходный код: <a href="https://github.com/FreshLend/FreshBrows"><strong>https://github.com/FreshLend/FreshBrows</strong></a></p>
+            <p>версия браузера: 1.1.0</p>
+        </div>
+    </footer>
 </body>
 </html>
